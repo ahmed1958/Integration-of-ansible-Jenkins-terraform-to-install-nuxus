@@ -1,0 +1,39 @@
+pipeline {
+<<<<<<< HEAD
+    agent { 
+        label "slave1" 
+    }
+=======
+    agent {
+  label: "slave1"
+}
+>>>>>>> ce21793 (adding jenk_file)
+    stages {
+        stage('clone_repo') {
+            steps {
+                sh """
+                rm -rf Publc-Ec2-with-terraform
+                git clone https://github.com/ahmed1958/Publc-Ec2-with-terraform
+                """
+            }
+        }
+        stage('terraform init') {
+            steps {
+                sh """
+<<<<<<< HEAD
+                cd Publc-Ec2-with-terraform
+                terraform init
+                terraform plan
+                """ 
+            }
+        }
+=======
+                terraform init
+                terraform apply
+                """ 
+            }
+        }
+        
+>>>>>>> ce21793 (adding jenk_file)
+    }
+}
