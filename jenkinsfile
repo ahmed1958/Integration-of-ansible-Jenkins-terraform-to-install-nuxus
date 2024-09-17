@@ -1,0 +1,35 @@
+pipeline {
+    agent none  
+    stages {
+        stage('clone_repo') {
+            agent {
+                docker {
+                    image 'my_terra'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock' 
+                }
+            }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'githubcredntial', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]){
+                sh"""
+                rm -rf Integration-of-ansible-Jenkins-terraform-to-install-nuxus
+                git clone https://github.com/ahmed1958/Integration-of-ansible-Jenkins-terraform-to-install-nuxus.git
+                cd Integration-of-ansible-Jenkins-terraform-to-install-nuxus/terraform
+                terraform init
+                terraform plan
+                terraform apply -auto-approve
+                cd ..
+                git init
+                git add terraform/inventory.txt
+                git commit -m "adding inventory.txt"
+                git remote set-url origin https://${GIT_USER}:${GIT_PASS}@github.com/ahmed1958/Integration-of-ansible-Jenkins-terraform-to-install-nuxus.git
+                git push origin main
+                cd terraform
+                terraform destroy -auto-approve
+                """
+             }
+                
+            }
+        }
+        
+    }
+}
