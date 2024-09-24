@@ -1,0 +1,66 @@
+---
+# tasks file for ./roles
+- name: Update yum packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: Install Java if it does not exist
+  yum:
+    name: java-11-openjdk
+    state: present
+
+- name: Check if Nexus Repository Manager file exists
+  stat:
+    path: /home/ec2-user/nexus-3.72.0-04-unix.tar.gz 
+  register: nexus_file
+
+- name: Download Nexus Repository Manager 
+  get_url:
+    url: https://download.sonatype.com/nexus/3/nexus-3.72.0-04-unix.tar.gz 
+    dest: /home/ec2-user
+    timeout: 600
+  when: not nexus_file.stat.exists
+
+- name: Create /opt/nexus directory
+  file:
+    path: /opt/nexus
+    state: directory
+
+- name: Extract latest-unix.tar.gz into /opt/nexus
+  ansible.builtin.unarchive:
+    src: /home/ec2-user/nexus-3.72.0-04-unix.tar.gz
+    dest: /opt/nexus
+    remote_src: yes
+
+- name: Add the user "nexus" 
+  user:
+    name: nexus
+    shell: /bin/false
+
+- name: Change file ownership
+  file:
+    path: /opt/nexus
+    state: directory
+    recurse: yes
+    owner: nexus
+    group: nexus
+
+- name: Copy service file 
+  ansible.builtin.copy:
+    src: nexus.service
+    dest: /etc/systemd/system/nexus.service
+
+- name: Reload systemd to recognize new services
+  systemd:
+    daemon_reload: yes
+
+- name: Enable Nexus service
+  systemd:
+    name: nexus
+    enabled: yes
+
+- name: Start Nexus service
+  systemd: 
+    name: nexus
+    state: started

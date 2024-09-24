@@ -1,0 +1,8 @@
+---
+- name: first-play
+  hosts: app
+  user: ec2-user
+  become: true
+  roles:
+    - roles
+
