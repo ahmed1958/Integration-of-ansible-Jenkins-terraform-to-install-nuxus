@@ -112,5 +112,26 @@ docker build -t my_ansb ./path/to/ansible/dockerfile
     - Create a new pipeline job.
     - Set the pipeline script to point to the Jenkinsfile in the cloned repository.
     - Save the job configuration and trigger a build.
+## Expected Output Images
+
+The following images represent the expected outputs at various stages of the deployment process:
+
+<div align="center">
+
+![Pipeline Success](Task_images/pipeline_success.png)
+<p> Pipeline Success </p>
+
+![EC2 Details](Task_images/ec2_details.png)
+<p> EC2 Details </p>
+
+![Nexus Home](Task_images/nexus_home.png)
+<p> Nexus Home </p>
+
+
+![Security Groups](Task_images/security_groups.png)
+<p> Security Groups </p>
+
+</div>
+
 ## Conclusion
 This project demonstrates the effective integration of Ansible, Jenkins, and Terraform to automate the deployment and management of a critical software component, the Nexus Repository Manager, leveraging the power of Infrastructure as Code and Continuous Integration/Continuous Deployment practices.
