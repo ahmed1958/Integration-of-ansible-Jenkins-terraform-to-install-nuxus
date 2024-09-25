@@ -24,7 +24,26 @@ pipeline {
                 git remote set-url origin https://${GIT_USER}:${GIT_PASS}@github.com/ahmed1958/Integration-of-ansible-Jenkins-terraform-to-install-nuxus.git
                 git push origin main
                 cd terraform
-                terraform destroy -auto-approve
+                """
+             }
+                
+            }
+        }
+        stage('ansible configration') {
+            agent {
+                docker {
+                    image 'my_ansb'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock' 
+                }
+            }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'githubcredntial', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]){
+                sh"""
+                rm -rf Integration-of-ansible-Jenkins-terraform-to-install-nuxus
+                git clone https://github.com/ahmed1958/Integration-of-ansible-Jenkins-terraform-to-install-nuxus.git
+                cd Integration-of-ansible-Jenkins-terraform-to-install-nuxus/nuxus_ansible
+                chmod 400 DAY3.pem
+                ansible-playbook nuxus_playbook.yml -i ../terraform/inventory.txt --private-key DAY3.pem --ssh-extra-args '-o StrictHostKeyChecking=no'
                 """
              }
                 
