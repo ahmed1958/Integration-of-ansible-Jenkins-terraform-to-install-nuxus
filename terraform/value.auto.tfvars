@@ -19,7 +19,7 @@ terraform-associate-data= {
   "public_sub" = ["my_route_table"]  
 } 
 my-sec-data= {
-     "my-sec-1"=["vpc_1",22,"tcp","0.0.0.0/0",80,"tcp","0.0.0.0/0",0,"-1","0.0.0.0/0"]
+     "my-sec-1"=["vpc_1",22,"tcp","0.0.0.0/0",80,"tcp","0.0.0.0/0",8081,"tcp","0.0.0.0/0",0,"-1","0.0.0.0/0"]
 }
 my-ec2-data = {
   "hamada public" = [ "ami-066784287e358dad1", "t3.medium" , "public_sub" , true,"my-sec-1","DAY3",

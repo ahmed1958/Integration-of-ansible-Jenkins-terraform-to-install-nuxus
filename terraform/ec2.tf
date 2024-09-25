@@ -17,12 +17,18 @@ for_each =var.my-sec-data
     protocol    = each.value[5]
     cidr_blocks = [each.value[6]]
   }
-
-  egress {
+  ingress = {
     from_port   = each.value[7]
     to_port     = each.value[7]
     protocol    = each.value[8]
     cidr_blocks = [each.value[9]]
+  }
+
+  egress {
+    from_port   = each.value[10]
+    to_port     = each.value[10]
+    protocol    = each.value[11]
+    cidr_blocks = [each.value[12]]
   }
 
   tags = {
