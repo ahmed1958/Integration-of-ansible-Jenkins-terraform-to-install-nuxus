@@ -22,13 +22,13 @@ my-sec-data= {
      "my-sec-1"=["vpc_1",22,"tcp","0.0.0.0/0",80,"tcp","0.0.0.0/0",0,"-1","0.0.0.0/0"]
 }
 my-ec2-data = {
-  "hamada public" = [ "ami-066784287e358dad1", "t2.micro" , "public_sub" , true,"my-sec-1","DAY3",
+  "hamada public" = [ "ami-066784287e358dad1", "t3.medium" , "public_sub" , true,"my-sec-1","DAY3",
    <<-EOF
       #!/bin/bash
       yum update -y
-      yum install -y apache2
-      systemctl start apache2
-      systemctl enable apache2
+      yum install -y httpd
+      systemctl start httpd
+      systemctl enable httpd
     EOF 
       ,
       "public"  ]
