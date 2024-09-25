@@ -7,7 +7,11 @@
 
 - name: Install Java if it does not exist
   yum:
-    name:  java-11-openjdk-devel
+    name:  java
+    state: present
+- name: Install Java if it does not exist
+  yum:
+    name:  java-11-amazon-corretto-headless.x86_64
     state: present
 
 - name: Check if Nexus Repository Manager file exists
