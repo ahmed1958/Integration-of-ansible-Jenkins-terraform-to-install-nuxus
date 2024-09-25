@@ -5,19 +5,11 @@
     name: '*'
     state: latest
     
-- name: Ensure EPEL repository is enabled
-  yum:
-        name: epel-release
-        state: present
-
-- name: Enable Java 11 module (CentOS/RHEL 8)
-  command: dnf module enable java:11
-  when: ansible_distribution_major_version is version('8', '==')
   
-- name: Install Java if it does not exist
-  yum:
-    name: java-11-openjdk-devel
-    state: present
+# - name: Install Java if it does not exist
+#   yum:
+#     name: java-11-openjdk-devel
+#     state: present
 
 - name: Check if Nexus Repository Manager file exists
   stat:
